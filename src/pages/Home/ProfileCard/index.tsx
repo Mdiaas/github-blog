@@ -6,12 +6,16 @@ import {
   faUserGroup,
   faArrowUpRightFromSquare,
 } from '@fortawesome/free-solid-svg-icons'
+import { useContext } from 'react'
+import { UserContext } from '../../../contexts/UserContext'
 export function ProfileCard() {
+  const { user } = useContext(UserContext)
+  console.log(user)
   return (
     <ProfileContainer>
-      <Avatar src="https://github.com/mdiaas.png" alt=""></Avatar>
+      <Avatar src={user.avatar_url} alt=""></Avatar>
       <InfoContainer>
-        <h2>Mateus Dias</h2>
+        <h2>{user.name}</h2>
         <p>
           Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
           viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat
@@ -20,18 +24,18 @@ export function ProfileCard() {
         <footer>
           <span>
             <FontAwesomeIcon icon={faGithub} />
-            mdiaas
+            {user.login}
           </span>
           <span>
             <FontAwesomeIcon icon={faBuilding} />
-            GlobalData
+            {user.company}
           </span>
           <span>
             <FontAwesomeIcon icon={faUserGroup} />2 seguidores
           </span>
         </footer>
       </InfoContainer>
-      <a href="https://github.com/mdiaas" target="_blank" rel="noreferrer">
+      <a href={user.html_url} target="_blank" rel="noreferrer">
         github
         <FontAwesomeIcon icon={faArrowUpRightFromSquare}></FontAwesomeIcon>
       </a>

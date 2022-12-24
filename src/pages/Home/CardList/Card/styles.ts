@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const CardContainer = styled.div`
+export const CardContainer = styled.a`
   width: 26rem;
   height: 16.25rem;
   background: ${(props) => props.theme['blue-500']};
