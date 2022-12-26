@@ -3,10 +3,11 @@ import { CardContainer } from './styles'
 interface CardProps {
   title: string
   body: string
+  id: number
 }
-export function Card({ title, body }: CardProps) {
+export function Card({ title, body, id }: CardProps) {
   return (
-    <CardContainer to={`/post/${1}`}>
+    <CardContainer to={`/post/${id}`}>
       <header>
         <h3>{title}</h3>
         <span>Há 1 dia</span>

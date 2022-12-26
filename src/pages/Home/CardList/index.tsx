@@ -8,7 +8,14 @@ export function Cardlist() {
   return (
     <CardListContainer>
       {issues.items?.map((item) => {
-        return <Card key={item.id} title={item.title} body={item.body}></Card>
+        return (
+          <Card
+            key={item.id}
+            id={item.id}
+            title={item.title}
+            body={item.body}
+          ></Card>
+        )
       })}
     </CardListContainer>
   )

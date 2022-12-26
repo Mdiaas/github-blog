@@ -20,6 +20,7 @@ interface User {
   html_url: string
 }
 interface Itens {
+  id: number
   title: string
   body: string
 }
@@ -32,6 +33,7 @@ interface UserContextType {
   user: User
   fetchIssues: (query?: string) => Promise<void>
   issues: Issues
+  getIssue: (id: string) => Itens | undefined
 }
 interface UserContextProviderProps {
   children: ReactNode
@@ -60,17 +62,20 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     setUser(data)
   }, [])
 
-  const fetchIssues = useCallback(async (query?: string = '') => {
-    
+  const fetchIssues = useCallback(async (query: string = '') => {
     const response = await api.get('search/issues', {
       params: {
-        q: `${query}repo:mdiaas/github-blog`
+        q: `${query}repo:mdiaas/github-blog`,
       },
     })
-
     setIssues(response.data)
   }, [])
 
+  function getIssue(id: any) {
+    const item = issues.items.find((item) => item.id === parseInt(id))
+
+    return item
+  }
   useEffect(() => {
     fetchUser()
   }, [fetchUser])
@@ -85,6 +90,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
         user,
         fetchIssues,
         issues,
+        getIssue,
       }}
     >
       {children}
