@@ -6,12 +6,12 @@ interface CardProps {
 }
 export function Card({ title, body }: CardProps) {
   return (
-    <CardContainer>
+    <CardContainer to={`/post/${1}`}>
       <header>
         <h3>{title}</h3>
         <span>Há 1 dia</span>
       </header>
-      <p>{body}</p>
+      <p>{body.length > 150 ? `${body.slice(0, 150)} ...` : body}</p>
     </CardContainer>
   )
 }
