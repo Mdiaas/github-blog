@@ -10,17 +10,12 @@ import { useContext } from 'react'
 import { UserContext } from '../../../contexts/UserContext'
 export function ProfileCard() {
   const { user } = useContext(UserContext)
-  console.log(user)
   return (
     <ProfileContainer>
       <Avatar src={user.avatar_url} alt=""></Avatar>
       <InfoContainer>
         <h2>{user.name}</h2>
-        <p>
-          Tristique volutpat pulvinar vel massa, pellentesque egestas. Eu
-          viverra massa quam dignissim aenean malesuada suscipit. Nunc, volutpat
-          pulvinar vel mass.
-        </p>
+        <p>{user.bio}</p>
         <footer>
           <span>
             <FontAwesomeIcon icon={faGithub} />

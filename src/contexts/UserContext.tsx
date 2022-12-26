@@ -14,14 +14,24 @@ interface User {
   name: string
   followers_url: string
   following_url: string
-  blog: string
+  bio: string
   company: string
   location: string
   html_url: string
 }
+interface Itens {
+  title: string
+  body: string
+}
+interface Issues {
+  total_count: number
+  items: Itens[]
+  incomplete_results: boolean
+}
 interface UserContextType {
   user: User
-  fetchUser: () => Promise<void>
+  fetchIssues: () => Promise<void>
+  issues: Issues
 }
 interface UserContextProviderProps {
   children: ReactNode
@@ -31,6 +41,7 @@ export const UserContext = createContext({} as UserContextType)
 
 export function UserContextProvider({ children }: UserContextProviderProps) {
   const [user, setUser] = useState<User>({} as User)
+  const [issues, setIssues] = useState({} as Issues)
 
   const fetchUser = useCallback(async (query?: string) => {
     const response = await api.get('/users/mdiaas')
@@ -41,7 +52,7 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       name: response.data.name,
       followers_url: response.data.followers_url,
       following_url: response.data.following_url,
-      blog: response.data.blog,
+      bio: response.data.bio,
       company: response.data.company,
       location: response.data.location,
       html_url: response.data.html_url,
@@ -49,15 +60,33 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     setUser(data)
   }, [])
 
+  const fetchIssues = useCallback(async (query?: string) => {
+    const repo = '?repo:mdiaas/github-blog'
+    const response = await api.get('search/issues', {
+      params: {
+        q: {
+          repo,
+        },
+      },
+    })
+
+    setIssues(response.data)
+  }, [])
+
   useEffect(() => {
     fetchUser()
   }, [fetchUser])
 
+  useEffect(() => {
+    fetchIssues()
+  }, [fetchIssues])
+
   return (
     <UserContext.Provider
       value={{
-        fetchUser,
         user,
+        fetchIssues,
+        issues,
       }}
     >
       {children}
