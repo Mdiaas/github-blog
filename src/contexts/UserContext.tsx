@@ -30,7 +30,7 @@ interface Issues {
 }
 interface UserContextType {
   user: User
-  fetchIssues: () => Promise<void>
+  fetchIssues: (query?: string) => Promise<void>
   issues: Issues
 }
 interface UserContextProviderProps {
@@ -61,11 +61,10 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
   }, [])
 
   const fetchIssues = useCallback(async (query?: string) => {
-    const repo = '?repo:mdiaas/github-blog'
-    const response = await api.get('search/issues', {
+    const response = await api.get('search/issues?repo:mdiaas/github-blog', {
       params: {
         q: {
-          repo,
+          query,
         },
       },
     })
