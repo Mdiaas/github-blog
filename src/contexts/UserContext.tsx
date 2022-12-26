@@ -60,12 +60,11 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
     setUser(data)
   }, [])
 
-  const fetchIssues = useCallback(async (query?: string) => {
-    const response = await api.get('search/issues?repo:mdiaas/github-blog', {
+  const fetchIssues = useCallback(async (query?: string = '') => {
+    
+    const response = await api.get('search/issues', {
       params: {
-        q: {
-          query,
-        },
+        q: `${query}repo:mdiaas/github-blog`
       },
     })
 
